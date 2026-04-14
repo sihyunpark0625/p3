@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Color Challenge</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="index.html">Home</a>
+        <a href="shape.html">Shape</a>
+        <a href="color.html">Color</a>
+    </header>
+
+    <div class="main-content">
+        <h1>Color Match</h1>
+        
+        <div class="container" style="justify-content: center; align-items: flex-end;">
+            <div>
+                <p>Target Color</p>
+                <div id="targetBox" class="color-box" style="width: 200px; height: 200px; border-radius: 15px;"></div>
+            </div>
+            <div>
+                <p>Your Color</p>
+                <div id="userBox" class="color-box" style="width: 200px; height: 200px; border-radius: 15px; background-color: hsl(180, 50%, 50%);"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="control-row">
+                <label style="font-weight: bold; width: 80px;">Hue</label>
+                <input type="range" id="hSlider" min="0" max="360" value="180" style="width: 200px;">
+                <span id="hVal" style="width: 40px; text-align: right;">180°</span>
+            </div>
+            <div class="control-row">
+                <label style="font-weight: bold; width: 80px;">Sat</label>
+                <input type="range" id="sSlider" min="0" max="100" value="50" style="width: 200px;">
+                <span id="sVal" style="width: 40px; text-align: right;">50%</span>
+            </div>
+            <div class="control-row">
+                <label style="font-weight: bold; width: 80px;">Light</label>
+                <input type="range" id="lSlider" min="0" max="100" value="50" style="width: 200px;">
+                <span id="lVal" style="width: 40px; text-align: right;">50%</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="control-row">
+                <button id="newColorBtn">Next Color</button>
+                <button id="checkColorBtn">Check Similarity</button>
+            </div>
+        </div>
+
+        <div id="result" style="margin-top: 20px; font-size: 24px; font-weight: bold;">Mix the colors to match!</div>
+
+    </div>
+
+    <script src="color.js"></script>
+</body>
+</html>

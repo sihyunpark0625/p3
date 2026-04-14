@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shape Challenge</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="index.html">Home</a>
+        <a href="shape.html">Shape</a>
+        <a href="color.html">Color</a>
+    </header>
+
+    <div class="main-content">
+        <h1>Shape Match</h1>
+        
+        <div class="controls">
+            <div class="control-row">
+                <label for="imageSelect">Choose a template: </label>
+                <select id="imageSelect">
+                    <option value="shape1.png">Level 1: Miffy</option>
+                    <option value="shape2.png">Level 2: Cat</option>
+                    <option value="shape3.png">Level 3: Skeleton</option>
+                </select>
+            </div>
+            <div class="control-row">
+                <label for="lineWidth">Brush Size: <span id="lineWidthVal">15</span>px</label>
+                <input type="range" id="lineWidth" min="1" max="50" value="15">
+            </div>
+        </div>
+
+        <div class="container">
+            <div>
+                <p>Original</p>
+                <img id="originalImg" width="300" height="300" src="Photo.1.png">
+            </div>
+            <div>
+                <p>My Drawing</p>
+                <canvas id="drawCanvas" width="300" height="300"></canvas>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="control-row">
+                <button id="clearBtn">Clear</button>
+                <button id="compareBtn">Check Similarity</button>
+            </div>
+        </div>
+
+        <div id="result" style="margin-top: 20px; font-size: 24px; font-weight: bold;">Draw the image above!</div>
+
+        <canvas id="hiddenCanvas" width="300" height="300" style="display:none;"></canvas>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
