@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About - Color Arcade</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="main-header">
+        <div style="display: flex; gap: 30px; margin-left: 40px;">
+            <a href="index.html" style="color: #fff; text-decoration: none; font-weight: bold;">Home</a>
+            <a href="about.html" style="color: #f1c40f; text-decoration: none; font-weight: bold;">About</a>
+            <a href="rank.html" style="color: #fff; text-decoration: none; font-weight: bold;">Rank</a>
+        </div>
+        <a href="login.html" id="profileLink" style="color: #bdc3c7; margin-left: auto; margin-right: 40px; text-decoration: none; font-weight: bold;">👤 Login / Profile</a>
+    </header>
+
+    <div class="hub-container" style="max-width: 850px; text-align: left; background: #34495e; padding: 45px; border-radius: 0; box-shadow: 10px 10px 0px #000; margin-top: 30px; margin-bottom: 50px; border: 4px solid #fff;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
+            <h1 style="color: #3498db; margin: 0; font-size: 2rem;">Project Concept</h1>
+            <div style="text-align: right;">
+                <p style="font-family: 'Press Start 2P', cursive; font-size: 0.6rem; color: #f1c40f; margin: 0; margin-bottom: 5px;">OCAD GD Project</p>
+                <p style="font-family: 'Press Start 2P', cursive; font-size: 0.6rem; color: #bdc3c7; margin: 0;">Created by Sihyun Park</p>
+            </div>
+        </div>
+        
+        <h3 style="color: #f1c40f; margin-top: 30px; font-size: 1.4rem;">Congruence vs. Similarity</h3>
+        
+        <p style="color: #ecf0f1; font-size: 1.3rem; line-height: 1.4; margin-top: 20px;">
+            In this project, completeness is defined as <em>Congruence</em> and incompleteness as <em>Similarity</em>. Rather than viewing incompleteness as a failure, I frame it as a valuable result of the continuous act of trying, a <em>journey</em> rather than a final status. The open-ended nature of these games reflects this philosophy, allowing players to perpetually strive for perfection in a process that has no fixed destination. By refining our senses through practice to approach machine-level precision, we explore the transition from <em>similarity toward congruence</em>, highlighting the beautiful growth found within our inherent human potential.
+        </p>
+
+        <h3 style="color: #2ecc71; margin-top: 40px; font-size: 1.1rem; padding-top: 25px;">Game Modes</h3>
+        <ul style="color: #bdc3c7; font-size: 1.3rem; line-height: 1.3; padding-left: 20px;">
+            <li><span style="color:#3498db; font-weight:bold;">Speedrun:</span> Test your instant HSL slider reflexes.</li>
+            <li><span style="color:#9b59b6; font-weight:bold;">Memory Match:</span> Reproduce a color purely from short-term memory.</li>
+            <li><span style="color:#2ecc71; font-weight:bold;">Paint Drop:</span> Experience analog RGB mixing.</li>
+            <li><span style="color:#f1c40f; font-weight:bold;">Color Grid:</span> Find the exact match among slightly altered tiles.</li>
+            <li><span style="color:#e84393; font-weight:bold;">Odd One Out:</span> Identify the single microscopic color difference.</li>
+        </ul>
+
+        <h3 style="color: #f39c12; margin-top: 40px; font-size: 1.1rem; padding-top: 25px; border-top: 2px solid rgba(255,255,255,0.1);">Connect with Designer</h3>
+        <div class="sns-links" style="margin-top: 15px; display: flex; gap: 20px; flex-wrap: wrap;">
+            <a href="https://www.instagram.com/sihyun__0625/" target="_blank" class="sns-btn">INSTAGRAM</a>
+        </div>
+
+        <div style="margin-top: 45px; text-align: center;">
+            <button class="action-btn" onclick="location.href='index.html'" style="width: 220px; background-color: #3498db;">Enter the Journey</button>
+        </div>
+    </div>
+    
+    <script>
+        const currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            document.getElementById('profileLink').innerText = `👤 ${currentUser} (Profile)`;
+        }
+    </script>
+</body>
+</html>

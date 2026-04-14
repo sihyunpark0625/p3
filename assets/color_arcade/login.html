@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Arcade Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-input { width: 80%; padding: 15px; margin-bottom: 20px; border-radius: 10px; border: 2px solid #2c3e50; font-size: 1.2rem; background-color: #1a252f; color: white; transition: 0.3s; text-align: center; font-weight: bold; }
+        .login-input:focus { outline: none; border-color: #3498db; }
+        .stat-box { background: #2c3e50; padding: 12px 20px; border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid #3498db; }
+        .stat-label { color: #bdc3c7; font-weight: bold; }
+        .stat-value { color: #f1c40f; font-size: 1.3rem; font-weight: 900; }
+    </style>
+</head>
+<body style="justify-content: center;">
+
+    <div class="game-wrapper" style="width: 400px; transition: 0.3s;">
+        
+        <div id="loginSection">
+            <h1 style="color: #3498db; font-size: 2.5rem; margin-bottom: 10px;">Player Login</h1>
+            <input type="text" id="userid" class="login-input" placeholder="Enter your ID">
+            <button id="loginBtn" class="action-btn" style="background-color: #3498db;">Next</button>
+        </div>
+
+        <div id="confirmSection" style="display: none;">
+            <h1 style="color: #f1c40f; margin-bottom: 10px;" id="confirmTitle">Confirm ID</h1>
+            <p style="color: #ecf0f1; font-size: 1.5rem; font-weight: bold; margin-bottom: 5px;" id="confirmIdText"></p>
+            <p style="color: #bdc3c7; margin-bottom: 30px;" id="confirmMsg"></p>
+            <div style="display: flex; gap: 10px;">
+                <button id="cancelBtn" class="action-btn btn-gray" style="width: 50%; font-size: 1rem;">No, Go Back</button>
+                <button id="proceedBtn" class="action-btn" style="width: 50%; font-size: 1rem;">Yes, Continue</button>
+            </div>
+        </div>
+
+        <div id="dashboardSection" style="display: none;">
+            <h1 style="color: #2ecc71; margin-bottom: 5px;" id="welcomeText">Welcome!</h1>
+            <p style="color: #bdc3c7; margin-bottom: 20px;">Your Average Scores</p>
+
+            <div class="stat-box"><span class="stat-label">1. Speedrun:</span><span class="stat-value" id="score-speed">0.0%</span></div>
+            <div class="stat-box"><span class="stat-label">2. Memory:</span><span class="stat-value" id="score-memory">0.0%</span></div>
+            <div class="stat-box"><span class="stat-label">3. Paint Drop:</span><span class="stat-value" id="score-paint">0.0%</span></div>
+            <div class="stat-box"><span class="stat-label">4. Color Grid:</span><span class="stat-value" id="score-grid">0.0%</span></div>
+            <div class="stat-box"><span class="stat-label">5. Odd One Out:</span><span class="stat-value" id="score-odd">0.0%</span></div>
+
+            <button onclick="location.href='index.html'" class="action-btn" style="background-color: #2ecc71; margin-top: 20px;">Go to Games</button>
+            <button id="logoutBtn" class="action-btn btn-gray" style="margin-top: 10px; padding: 10px;">Change ID</button>
+        </div>
+
+    </div>
+
+    <script>
+        if (!localStorage.getItem('arcadeDB_v2')) {
+            localStorage.setItem('arcadeDB_v2', JSON.stringify({ users: {} }));
+        }
+
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+            const db = JSON.parse(localStorage.getItem('arcadeDB_v2'));
+            // 기존 숫자형 데이터를 객체형으로 변환 및 초기화
+            if (!db.users[savedUser] || typeof db.users[savedUser].speed === 'number') {
+                db.users[savedUser] = {
+                    speed: { best: 0, sum: 0, count: 0 },
+                    memory: { best: 0, sum: 0, count: 0 },
+                    paint: { best: 0, sum: 0, count: 0 },
+                    grid: { best: 0, sum: 0, count: 0 },
+                    odd: { best: 0, sum: 0, count: 0 }
+                };
+                localStorage.setItem('arcadeDB_v2', JSON.stringify(db));
+            }
+            document.getElementById('loginSection').style.display = 'none';
+            showDashboard(savedUser, db.users[savedUser]);
+        }
+
+        let pendingId = "";
+        let isNewUser = false;
+
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            pendingId = document.getElementById('userid').value.trim();
+            if(!pendingId) return alert("Please enter an ID!");
+
+            const db = JSON.parse(localStorage.getItem('arcadeDB_v2'));
+            
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('confirmSection').style.display = 'block';
+            document.getElementById('confirmIdText').innerText = `ID: ${pendingId}`;
+
+            if (!db.users[pendingId]) {
+                isNewUser = true;
+                document.getElementById('confirmTitle').innerText = "New Player!";
+                document.getElementById('confirmTitle').style.color = "#2ecc71"; 
+                document.getElementById('confirmMsg').innerText = "Create a new account?";
+                document.getElementById('proceedBtn').innerText = "Create Account";
+                document.getElementById('proceedBtn').style.backgroundColor = "#2ecc71"; 
+            } else {
+                isNewUser = false;
+                document.getElementById('confirmTitle').innerText = "Welcome Back!";
+                document.getElementById('confirmTitle').style.color = "#3498db"; 
+                document.getElementById('confirmMsg').innerText = "Account found! Is this you?";
+                document.getElementById('proceedBtn').innerText = "Login";
+                document.getElementById('proceedBtn').style.backgroundColor = "#3498db"; 
+            }
+        });
+
+        document.getElementById('userid').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') document.getElementById('loginBtn').click();
+        });
+
+        document.getElementById('cancelBtn').addEventListener('click', () => {
+            document.getElementById('confirmSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+        });
+
+        document.getElementById('proceedBtn').addEventListener('click', () => {
+            const db = JSON.parse(localStorage.getItem('arcadeDB_v2'));
+            
+            if (isNewUser) {
+                db.users[pendingId] = {
+                    speed: { best: 0, sum: 0, count: 0 },
+                    memory: { best: 0, sum: 0, count: 0 },
+                    paint: { best: 0, sum: 0, count: 0 },
+                    grid: { best: 0, sum: 0, count: 0 },
+                    odd: { best: 0, sum: 0, count: 0 }
+                }; 
+                localStorage.setItem('arcadeDB_v2', JSON.stringify(db));
+            }
+            
+            localStorage.setItem('currentUser', pendingId);
+            document.getElementById('confirmSection').style.display = 'none';
+            showDashboard(pendingId, db.users[pendingId]);
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('currentUser'); 
+            location.reload(); 
+        });
+
+        function showDashboard(myId, myScores) {
+            document.getElementById('dashboardSection').style.display = 'block';
+            document.getElementById('welcomeText').innerText = `Hello, ${myId}!`;
+
+            const getAvg = (game) => {
+                if (!game || game.count === 0) return "0.0";
+                return (game.sum / game.count).toFixed(1);
+            };
+
+            document.getElementById('score-speed').innerText = `${getAvg(myScores.speed)}%`;
+            document.getElementById('score-memory').innerText = `${getAvg(myScores.memory)}%`;
+            document.getElementById('score-paint').innerText = `${getAvg(myScores.paint)}%`;
+            document.getElementById('score-grid').innerText = `${getAvg(myScores.grid)}%`;
+            document.getElementById('score-odd').innerText = `${getAvg(myScores.odd)}%`;
+        }
+    </script>
+</body>
+</html>

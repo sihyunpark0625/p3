@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mode 4 - Color Grid</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="main-header">
+    <div style="display: flex; gap: 30px; margin-left: 40px;">
+        <a href="index.html" style="color: #fff; text-decoration: none; font-weight: bold;">Home</a>
+        <a href="about.html" style="color: #fff; text-decoration: none; font-weight: bold;">About</a>
+        <a href="rank.html" style="color: #fff; text-decoration: none; font-weight: bold;">Rank</a>
+    </div>
+    <a href="login.html" id="profileLink" style="color: #f1c40f; margin-left: auto; margin-right: 40px; text-decoration: none; font-weight: bold;">👤 Login / Profile</a>
+</header>
+
+    <div class="game-wrapper theme-grid">
+        <header>
+            <h1>Color Grid</h1>
+            <div class="stats">
+                <span id="roundDisplay">Round: 1 / 5</span>
+                <span id="scoreDisplay">Score: 0</span>
+            </div>
+        </header>
+
+        <p id="instructionText" style="margin-bottom: 20px; color: #bdc3c7;">Memorize the color!</p>
+
+        <div class="timer-container"><div id="timerBar" class="timer-bar"></div></div>
+
+        <div id="targetDisplay" style="display: block; margin-bottom: 30px;">
+            <div id="targetBox" class="color-circle" style="margin: 0 auto; font-size: 40px; font-weight: bold; color: white;">3</div>
+        </div>
+
+        <div id="tileGrid" class="grid-container" style="display: none;"></div>
+        
+        <div id="gameOverScreen" class="overlay" style="display: none;">
+            <div class="modal">
+                <h2>Game Over!</h2>
+                <p style="font-size: 1.2rem; color: #2c3e50; font-weight: bold; margin-bottom: -10px;">Average Accuracy:</p>
+                <p id="finalScoreText">0.0%</p>
+                <p id="gradeText"></p>
+                <button id="restartBtn" class="action-btn">Play Again</button>
+            </div>
+        </div>
+    </div>
+    <script src="color-grid.js"></script>
+</body>
+</html>
