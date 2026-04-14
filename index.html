@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 3: Documents</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header id="navbar">
+        <div class="logo">Sihyun Park / P3</div>
+        <nav>
+            <a href="#hero">Home</a>
+            <a href="#project1">Stupidness</a>
+            <a href="#project2">Incompleteness</a>
+            <a href="#archive">Process</a> 
+        </nav>
+    </header>
+
+    <section id="hero" class="section">
+        <div class="hero-content">
+            <h1><strong>Project 3: Documents</strong></h1>
+            <p>At the intersection of digital culture and graphic design, exploring <strong>Stupidness</strong> and <strong>Incompleteness</strong></p>
+            <p class="scroll-prompt">Scroll to explore ↓</p>
+        </div>
+    </section>
+
+    <section id="project1" class="section">
+        <div class="container">
+            <div class="text-col">
+                <h2><strong>Project 1: Stupidness</strong></h2>
+                <h3><strong>Digital Landfill</strong></h3>
+                <p>This project explores the chaotic visual language of internet brainrot culture, utilizing Minecraft assets to create a controlled environment of digital absurdity.</p>
+                <div class="concept-tags">
+                    <span>#Minecraft</span>
+                    <span>#Meme</span>
+                    <span>#Reels</span>
+                </div>
+                <a href="project1-detail.html" class="detail-btn">Read More →</a>
+            </div>
+            <div class="visual-col">
+                <video id="p1-video-player" autoplay muted controls playsinline class="project-asset">
+                    <source src="assets/brainrot_1.mov" type="video/quicktime">
+                    Your browser does not support the video tag
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <section id="project2" class="section">
+        <div class="container reverse">
+            <div class="text-col">
+                <h2><strong>Project 2: Incompleteness</strong></h2>
+                <h3><strong>Color Arcade</strong></h3>
+                <p>A web based interactive experience exploring the boundaries of human perception. Rather than viewing incompleteness as a failure, it is framed as a continuous journey of developing human senses.</p>
+                <div class="concept-tags">
+                    <span>#Entertaining</span>
+                    <span>#Retro</span>
+                    <span>#ColorLogic</span>
+                </div>
+                <a href="project2-detail.html" class="detail-btn">Read More →</a>
+            </div>
+            <div class="visual-col">
+                <div class="color-arcade-container">
+                    <iframe src="assets/color_arcade/index.html" title="Color Arcade Interactive Game" class="color-arcade-iframe"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="archive" class="section">
+        <div class="container container-col-center">
+            <div class="text-col text-col-center-wide">
+                
+                <h2 class="archive-title"><strong>Design Process & Technical Archive</strong></h2>
+                <p class="archive-subtitle">Documentation of the creative journey, research, and technical iterations behind both projects.</p>
+                
+                <div class="process-cards-wrapper">
+                    
+                    <div class="process-card">
+                        <h4 class="process-card-title">01. Content Production</h4>
+                        <p class="process-card-desc">Building a digital archive by producing over 100 Minecraft short-form videos and documenting the brainrot phenomenon.</p>
+                    </div>
+                    
+                    <div class="process-card">
+                        <h4 class="process-card-title">02. Logic Prototyping</h4>
+                        <p class="process-card-desc">Implementing color similarity algorithms using HSL coordinates and establishing core interactive mechanics for the web arcade.</p>
+                    </div>
+                    
+                    <div class="process-card">
+                        <h4 class="process-card-title">03. System Refinement</h4>
+                        <p class="process-card-desc">Changing visual interfaces, integrating dynamic difficulty scaling, and developing a global ranking system.</p>
+                    </div>
+
+                </div>
+
+                <a href="overall-process.html" class="detail-btn detail-btn-large">View Full Process →</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p class="copyright">© 2026 Sihyun Park. OCAD University</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

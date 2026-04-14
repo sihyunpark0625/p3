@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P2: Incompleteness</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header id="navbar">
+        <div class="logo">Sihyun Park / P3</div>
+        <nav><a href="index.html">← Back to Main</a></nav>
+    </header>
+
+    <div class="detail-header">
+        <h1><strong>Project 2: Incompleteness</strong></h1>
+        <p class="detail-subtitle"><strong>Color Arcade</strong></p>
+    </div>
+
+    <div class="detail-content">
+        <h2><strong>1. The Concept</strong></h2>
+        <p>This project explores <strong>Incompleteness</strong> through the mathematical concepts of <strong>Congruence</strong> versus <strong>Similarity</strong>. Here, completeness is congruence while incompleteness is similarity, a continuous journey of striving toward an ideal rather than a failure.</p>
+
+        <h2><strong>2. The Outcome</strong></h2>
+        <p><strong>Color Arcade</strong> is an interactive web experience that challenges the imprecision of the human eye. Wrapped in a pixelated arcade aesthetic, it offers players a playful way to test their color perception.</p>
+
+        <div class="process-img-wrapper">
+            <video autoplay muted loop playsinline controls class="process-img">
+                <source src="assets/p2_demo.mov" type="video/quicktime">
+                <source src="assets/p2_demo.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <h2><strong>3. Technical Execution</strong></h2>
+        <p>The core of Project 2 lies in translating abstract human perception into data. Below are the three key technical systems that power the experience: scoring logic, dynamic difficulty scaling, and a unified data management system.</p>
+
+        <h3><strong>A. Color: Similarity Scoring</strong></h3>
+        <p>Since the Hue in HSL is circular (0–360°), the code calculates the shortest distance between two points on a wheel.</p>
+        <div class="process-img-wrapper">
+            <pre class="code-block"><code><span class="keyword">let</span> <span class="variable">hDiff</span> = <span class="variable">Math</span>.<span class="function">abs</span>(<span class="variable">targetH</span> - <span class="variable">uH</span>);
+<span class="keyword">if</span> (<span class="variable">hDiff</span> > <span class="number">180</span>) <span class="variable">hDiff</span> = <span class="number">360</span> - <span class="variable">hDiff</span>;
+<span class="keyword">const</span> <span class="variable">hScore</span> = <span class="number">100</span> - (<span class="variable">hDiff</span> / <span class="number">180</span> * <span class="number">100</span>);</code></pre>
+            
+            <div class="sandbox-container">
+                <div class="sandbox-header">Interactive Sandbox: Similarity Scoring</div>
+                <div class="color-compare-wrap">
+                    <div class="color-box-wrap">
+                        <div class="color-box" id="target-color-box" style="background-color: hsl(200, 70%, 50%);"></div>
+                        <span class="box-label">Target (200°)</span>
+                    </div>
+                    <div class="sandbox-score">Score: <span id="sandbox-score-val" class="highlight-text">0.0%</span></div>
+                    <div class="color-box-wrap">
+                        <div class="color-box" id="user-color-box" style="background-color: hsl(0, 70%, 50%);"></div>
+                        <span class="box-label">User Input</span>
+                    </div>
+                </div>
+                <div class="slider-wrap">
+                    <label for="hue-slider" class="box-label">Drag the slider to make 100%.</label>
+                    <input type="range" id="hue-slider" min="0" max="360" value="0">
+                </div>
+            </div>
+        </div>
+
+        <h3><strong>B. Dynamic Difficulty: Color Grid</strong></h3>
+        <p>As the round progresses, the grid expands and the color variance decreases.</p>
+        
+        <div class="process-img-wrapper">
+            <pre class="code-block"><code><span class="keyword">const</span> <span class="variable">gridSize</span> = <span class="variable">currentRound</span> <= <span class="number">3</span> ? <span class="number">2</span> : <span class="variable">currentRound</span> <= <span class="number">7</span> ? <span class="number">3</span> : <span class="number">4</span>;
+<span class="keyword">const</span> <span class="variable">diffs</span> = [<span class="number">50, 40, 32, 25, 19, 14, 10, 6.5, 3.5, 1.5</span>];
+<span class="keyword">const</span> <span class="variable">diff</span> = <span class="variable">diffs</span>[<span class="variable">currentRound</span> - <span class="number">1</span>] || <span class="number">1.5</span>;</code></pre>
+            
+            <div class="sandbox-container">
+                <div class="sandbox-header">Interactive Sandbox: Dynamic Difficulty</div>
+                <div class="diff-grid-wrap">
+                    <div class="sandbox-score" id="sandbox-round-text">Round: 1</div>
+                    <div id="sandbox-grid" class="diff-grid"></div>
+                    <button class="btn-sandbox" id="btn-next-round">Simulate Next Round →</button>
+                </div>
+            </div>
+        </div>
+
+        <h3><strong>C. Data Logic: Stats & Global Ranking</strong></h3>
+        <p>While the average score tracks a player's long-term consistency, the ranking system isolates only their Best Score.</p>
+        
+        <div class="process-img-wrapper">
+            <div class="combined-code-container">
+                <pre class="code-block"><code><span class="keyword">const</span> <span class="variable">getAvg</span> = (<span class="variable">game</span>) => {
+    <span class="keyword">if</span> (!<span class="variable">game</span> || <span class="variable">game.count</span> === <span class="number">0</span>) <span class="keyword">return</span> <span class="string">"0.0"</span>;
+    <span class="keyword">return</span> (<span class="variable">game.sum</span> / <span class="variable">game.count</span>).<span class="function">toFixed</span>(<span class="number">1</span>);
+};</code></pre>
+                
+                <div class="code-divider"></div>
+                
+                <pre class="code-block"><code><span class="keyword">for</span> (<span class="keyword">const</span> [<span class="variable">userId, scores</span>] <span class="keyword">of</span> <span class="variable">Object</span>.<span class="function">entries</span>(<span class="variable">db.users</span>)) {
+    <span class="keyword">const</span> <span class="variable">userBest</span> = <span class="variable">scores[mode.key].best</span>;
+    <span class="keyword">if</span> (<span class="variable">scores[mode.key].count</span> > <span class="number">0</span>) {
+        <span class="variable">players</span>.<span class="function">push</span>({ <span class="variable">id: userId, score: userBest</span> });
+    }
+}
+<span class="variable">players</span>.<span class="function">sort</span>((<span class="variable">a, b</span>) => <span class="variable">b.score</span> - <span class="variable">a.score</span>);</code></pre>
+            </div>
+
+            <div class="sandbox-container">
+                <div class="sandbox-header">Integrated Sandbox: Stats & Global Ranking</div>
+                
+                <div class="stats-wrap">
+                    <div class="stat-box">
+                        <div class="stat-label">Your Average</div>
+                        <div class="stat-value" id="stat-avg">0.0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Your Best</div>
+                        <div class="stat-value" id="stat-best">0</div>
+                    </div>
+                </div>
+
+                <div class="ranking-wrap" style="margin-top: 20px;">
+                    <div class="ranking-board">
+                        <div class="ranking-item header">
+                            <span>Rank</span>
+                            <span>User ID</span>
+                            <span>Highest Score</span>
+                        </div>
+                        <div id="ranking-list">
+                            <div class="ranking-placeholder">Click 'Simulate Play' to update your ranking.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="diff-grid-wrap" style="margin-top: 15px;">
+                    <button class="btn-sandbox" id="btn-simulate-combined">Simulate Play & Update Ranking →</button>
+                    <div class="log-box" id="stat-log">Score History: Empty</div>
+                </div>
+            </div>
+        </div>
+
+<h3><strong>D. Action Logic: Paint Drop Mixing</strong></h3>
+        <p>In the Paint Drop mode, the code calculates the final color by averaging the RGB values of all added drops. The similarity score is determined using the 3D Euclidean distance formula within the RGB color space.</p>
+        
+        <div class="process-img-wrapper">
+            <pre class="code-block"><code><span class="keyword">const</span> <span class="variable">distance</span> = <span class="variable">Math</span>.<span class="function">sqrt</span>(
+    <span class="variable">Math</span>.<span class="function">pow</span>(<span class="variable">targetR</span> - <span class="variable">uR</span>, <span class="number">2</span>) + 
+    <span class="variable">Math</span>.<span class="function">pow</span>(<span class="variable">targetG</span> - <span class="variable">uG</span>, <span class="number">2</span>) + 
+    <span class="variable">Math</span>.<span class="function">pow</span>(<span class="variable">targetB</span> - <span class="variable">uB</span>, <span class="number">2</span>)
+);
+<span class="keyword">const</span> <span class="variable">maxDist</span> = <span class="number">441.67</span>; 
+<span class="keyword">const</span> <span class="variable">score</span> = <span class="variable">Math</span>.<span class="function">max</span>(<span class="number">0</span>, <span class="number">100</span> - (<span class="variable">distance</span> / <span class="variable">maxDist</span> * <span class="number">100</span>));</code></pre>
+            
+            <div class="sandbox-container">
+                <div class="sandbox-header">Interactive Sandbox: Simple Mixing (Red + Blue)</div>
+                <div class="color-compare-wrap" style="gap: 30px; justify-content: center;">
+                    <div class="color-box-wrap">
+                        <div class="color-box" id="paint-target-box" style="background-color: hsl(280, 70%, 50%);"></div>
+                        <span class="box-label">Target (Purple)</span>
+                    </div>
+                    <div class="sandbox-score" style="min-width: 120px;">
+                        <span id="paint-score-text" class="highlight-text" style="font-size: 2rem;">0.0%</span>
+                        <div style="font-size: 0.8rem; font-weight: bold; color: var(--text-muted); margin-top: 5px;">Similarity</div>
+                    </div>
+                    <div class="color-box-wrap">
+                        <div class="color-box" id="paint-user-box" style="background-color: #fff;"></div>
+                        <span class="box-label">Your Mix</span>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 20px; justify-content: center; margin-top: 30px;">
+                    <button class="simple-paint-btn" data-color="red" style="background: #FF0000; width: 60px; height: 60px; border: 4px solid #000; box-shadow: 6px 6px 0px #000; cursor: pointer; font-weight: 800; color: #fff;">RED</button>
+                    <button class="simple-paint-btn" data-color="blue" style="background: #0000FF; width: 60px; height: 60px; border: 4px solid #000; box-shadow: 6px 6px 0px #000; cursor: pointer; font-weight: 800; color: #fff;">BLUE</button>
+                </div>
+                
+                <div style="margin-top: 20px; font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: bold;">
+                    Drops: <span id="red-count" style="color: #ff3e00;">0 Red</span> / <span id="blue-count" style="color: #2E5BFF;">0 Blue</span>
+                </div>
+                
+                <button class="btn-sandbox" id="btn-wash-brush" style="margin-top: 20px; font-size: 0.85rem; padding: 10px 20px;">Reset Mix</button>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-btn">← Return to Home</a>
+    </div>
+
+<script src="script.js"></script>
+</body>
+</html>
