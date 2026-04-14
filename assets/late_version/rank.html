@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Global Ranking - Color Arcade</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { justify-content: flex-start; padding-bottom: 80px; overflow-y: auto; overflow-x: hidden; }
+        .rank-board-container { display: flex; flex-wrap: nowrap; gap: 15px; justify-content: center; align-items: flex-start; width: 95vw; max-width: 1400px; margin: 0 auto; padding: 10px; }
+        .game-rank-card { background: #34495e; padding: 15px; border-radius: 12px; flex: 1 1 0; min-width: 0; box-shadow: 0 6px 15px rgba(0,0,0,0.25); display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
+        .game-rank-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .game-rank-card h2 { font-size: 1.05rem; margin-top: 5px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .rank-item { display: flex; justify-content: space-between; align-items: center; background: #2c3e50; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px; font-weight: bold; font-size: 0.95rem; }
+        .rank-1 { border-left: 4px solid #f1c40f; color: #f1c40f; background: rgba(241, 196, 15, 0.1); }
+        .rank-2 { border-left: 4px solid #bdc3c7; color: #bdc3c7; background: rgba(189, 195, 199, 0.05); }
+        .rank-3 { border-left: 4px solid #e67e22; color: #e67e22; background: rgba(230, 126, 34, 0.05); }
+        .rank-other { border-left: 4px solid #7f8c8d; color: #bdc3c7; background: rgba(127, 140, 141, 0.05); }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div style="display: flex; gap: 30px; margin-left: 40px;">
+            <a href="index.html" style="color: #fff; text-decoration: none; font-weight: bold;">Home</a>
+            <a href="about.html" style="color: #fff; text-decoration: none; font-weight: bold;">About</a>
+            <a href="rank.html" style="color: #f1c40f; text-decoration: none; font-weight: bold;">Rank</a>
+        </div>
+        <a href="login.html" id="profileLink" style="color: #bdc3c7; margin-left: auto; margin-right: 40px; text-decoration: none; font-weight: bold;">👤 Login / Profile</a>
+    </header>
+
+    <div class="hub-container" style="margin-top: 20px; width: 100%;">
+        <h1 style="font-size: 2.8rem; margin-bottom: 40px; color: #f1c40f;">🏆 Hall of Fame</h1>
+        <div id="allRanksContainer" class="rank-board-container"></div>
+    </div>
+
+<script>
+        const currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            document.getElementById('profileLink').innerText = `👤 ${currentUser} (Profile)`;
+        }
+
+        const gameModes = [
+            { key: 'speed', title: 'Mode 1<br>Speedrun', borderColor: '#3498db', textColor: '#74b9ff' },
+            { key: 'memory', title: 'Mode 2<br>Memory Match', borderColor: '#9b59b6', textColor: '#c39bd3' },
+            { key: 'paint', title: 'Mode 3<br>Paint Drop', borderColor: '#2ecc71', textColor: '#69e796' },
+            { key: 'grid', title: 'Mode 4<br>Color Grid', borderColor: '#f1c40f', textColor: '#f7dc6f' },
+            { key: 'odd', title: 'Mode 5<br>Odd One Out', borderColor: '#e84393', textColor: '#ff7eb3' }
+        ];
+
+        function loadAllRanks() {
+            const db = JSON.parse(localStorage.getItem('arcadeDB_v2')) || { users: {} };
+            const container = document.getElementById('allRanksContainer');
+            container.innerHTML = '';
+
+            gameModes.forEach(mode => {
+                let players = [];
+                for (const [userId, scores] of Object.entries(db.users)) {
+                    // 🌟 최고 점수(best) 기준으로 랭킹 보드 등록
+                    const userBest = scores[mode.key] && scores[mode.key].best !== undefined ? scores[mode.key].best : 0;
+                    if (userBest > 0) {
+                        players.push({ id: userId, score: userBest });
+                    }
+                }
+
+                players.sort((a, b) => b.score - a.score);
+                const top5 = players.slice(0, 5);
+
+                let cardHTML = `
+                    <div class="game-rank-card" style="border-top: 4px solid ${mode.borderColor};">
+                        <h2 style="color: ${mode.textColor};">${mode.title}</h2>
+                `;
+                
+                if (top5.length === 0) {
+                    cardHTML += `<p style="text-align: center; color:#bdc3c7; font-size: 1.2rem; margin: 10px 0;">No records yet.</p>`;
+                } else {
+                    top5.forEach((p, index) => {
+                        let rankNum = index + 1;
+                        let rankClass = rankNum === 1 ? 'rank-1' : rankNum === 2 ? 'rank-2' : rankNum === 3 ? 'rank-3' : 'rank-other';
+                        let medal = rankNum === 1 ? '🥇' : rankNum === 2 ? '🥈' : rankNum === 3 ? '🥉' : `<span style="display:inline-block; width: 25px; text-align: center; color:#7f8c8d; font-size: 1.2rem; margin-right: 5px;">${rankNum}</span>`;
+                        let isMe = (p.id === currentUser);
+                        let myHighlightClass = isMe ? ' my-record' : '';
+                        let meTag = isMe ? `<span style="color:#ffffff; text-shadow: 1px 1px 0 #000; font-size:0.8em; margin-left: 5px;">(ME)</span>` : '';
+                        
+                        cardHTML += `
+                            <div class="rank-item ${rankClass}${myHighlightClass}">
+                                <span>${medal} ${p.id}${meTag}</span>
+                                <span>${p.score.toFixed(1)}%</span>
+                            </div>
+                        `;
+                    });
+                }
+                cardHTML += `</div>`;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        loadAllRanks();
+    </script>
+</body>
+</html>
