@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mode 5 - Odd One Out</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="main-header"><a href="index.html">Home</a></header>
+
+    <div class="game-wrapper theme-odd">
+        <header>
+            <h1>Odd One Out</h1>
+            <div class="stats">
+                <span id="roundDisplay">Round: 1 / 10</span>
+                <span id="scoreDisplay">Score: 0</span>
+            </div>
+        </header>
+
+        <p id="instructionText" style="margin-bottom: 20px; color: #bdc3c7;">Find the tile with a different color!</p>
+
+        <div class="timer-container"><div id="timerBar" class="timer-bar"></div></div>
+
+        <div id="tileGrid" class="grid-container"></div>
+        
+        <div id="gameOverScreen" class="overlay" style="display: none;">
+            <div class="modal">
+                <h2>Game Over!</h2>
+                <p style="font-size: 1.2rem; color: #2c3e50; font-weight: bold; margin-bottom: -10px;">Average Accuracy:</p>
+                <p id="finalScoreText">0.0%</p>
+                <p id="gradeText"></p>
+                <button id="restartBtn" class="action-btn">Play Again</button>
+            </div>
+        </div>
+    </div>
+    <script src="color-odd.js"></script>
+</body>
+</html>

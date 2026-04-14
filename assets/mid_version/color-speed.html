@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mode 1 - Speedrun</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="main-header">
+        <a href="index.html">Home</a>
+    </header>
+
+    <div class="game-wrapper theme-speedrun">
+        <header>
+            <h1>Speedrun</h1>
+            <div class="stats">
+                <span id="roundDisplay">Round: 1 / 5</span>
+                <span id="scoreDisplay">Score: 0</span>
+            </div>
+        </header>
+
+        <p id="instructionText" style="margin-bottom: 20px; color: #bdc3c7;">Match the color as fast as you can!</p>
+
+        <div class="timer-container"><div id="timerBar" class="timer-bar"></div></div>
+
+        <div class="color-arena">
+            <div class="color-panel">
+                <p>Target</p>
+                <div id="targetBox" class="color-circle"></div>
+            </div>
+            <div class="color-panel">
+                <p>Your Mix</p>
+                <div id="userBox" class="color-circle" style="background-color: hsl(180, 50%, 50%);"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="slider-group"><label>Hue</label><input type="range" id="hSlider" min="0" max="360" value="180"></div>
+            <div class="slider-group"><label>Sat</label><input type="range" id="sSlider" min="0" max="100" value="50"></div>
+            <div class="slider-group"><label>Light</label><input type="range" id="lSlider" min="0" max="100" value="50"></div>
+        </div>
+
+        <button id="matchBtn" class="action-btn">Match!</button>
+        
+        <div id="gameOverScreen" class="overlay" style="display: none;">
+            <div class="modal">
+                <h2>Game Over!</h2>
+                <p style="font-size: 1.2rem; color: #2c3e50; font-weight: bold; margin-bottom: -10px;">Average Similarity:</p>
+                <p id="finalScoreText">0.0%</p>
+                <p id="gradeText"></p>
+                <button id="restartBtn" class="action-btn">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="color-speed.js"></script> 
+</body>
+</html>
